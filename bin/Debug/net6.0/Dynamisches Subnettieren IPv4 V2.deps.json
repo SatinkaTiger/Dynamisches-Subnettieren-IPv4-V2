@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Dynamisches Subnettieren IPv4 V2/1.0.0": {
+        "runtime": {
+          "Dynamisches Subnettieren IPv4 V2.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Dynamisches Subnettieren IPv4 V2/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

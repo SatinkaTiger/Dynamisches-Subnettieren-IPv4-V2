@@ -1,0 +1,14 @@
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\bin\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.exe
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\bin\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.deps.json
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\bin\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.runtimeconfig.json
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\bin\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.dll
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\bin\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.pdb
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.AssemblyInfo.cs
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.dll
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\refint\Dynamisches Subnettieren IPv4 V2.dll
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.pdb
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\Dynamisches Subnettieren IPv4 V2.genruntimeconfig.cache
+C:\Users\Admin\source\repos\Dynamisches Subnettieren IPv4 V2\Dynamisches Subnettieren IPv4 V2\obj\Debug\net6.0\ref\Dynamisches Subnettieren IPv4 V2.dll
