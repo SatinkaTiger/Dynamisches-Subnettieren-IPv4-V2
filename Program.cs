@@ -17,11 +17,22 @@
                 8,
                 4,
                 2,
-                1
+                1,
+                0
             };
         static void Main(string[] args)
         {
             //User Interaktion
+            UserInput();
+            //Verarbeitung
+            NetworkJump(Networks);
+            for (int i = 0; i < SubNetworks.Count; i++)
+                Console.WriteLine($"{Networks[i].Item1}\nNetzadesse: {ConvertIntArrayToString(SubNetworks[i].Item1)}\nNeues Netz: {SubNetworks[i].Item2}");
+            Console.ReadKey();
+        }
+        static void UserInput()
+        {
+            //Fordert den User zum eingeben der Daten auf und prüft und Speichert diese
             while (true)
             {
                 IPOktettsGlobal = GetIPFromUser();
@@ -32,16 +43,32 @@
             while (true)
             {
                 GetSubnetHostsFormUser();
+                NetworksSort(Networks);
                 if (CheckInput(Networks))
                     break;
                 else
                     Networks.Clear();
             }
-            //Verarbeitung
-            foreach (var Item in Networks)
+        }
+        static List<Tuple<string, int>> NetworksSort(List<Tuple<string, int>> NetworkItem)
+        {
+            //Die Teilnetzwerke werden absteigend Sortiert
+            for (int i = 0; i < NetworkItem.Count; i++)
             {
-                SubNetworks.Add(NetworkJump(GetNewPräfix(Item.Item2)));
+                string TempString;
+                int TempInt;
+                for (int j = i; j < NetworkItem.Count; j++)
+                {
+                    TempString = NetworkItem[j].Item1;
+                    TempInt = NetworkItem[j].Item2;
+                    if (NetworkItem[i].Item2 < NetworkItem[j].Item2)
+                    {
+                        NetworkItem[j] = new Tuple<string, int>(NetworkItem[i].Item1, NetworkItem[i].Item2);
+                        NetworkItem[i] = new Tuple<string, int>(TempString, TempInt);
+                    }
+                }
             }
+            return NetworkItem;
         }
         static void ProgramHead()
         {
@@ -63,34 +90,90 @@
             //Programmkopf mit kompletten Netzadressdaten
             string StringSubnetMask = $"{SubnetMask.Item1}.{SubnetMask.Item2}.{SubnetMask.Item3}.{SubnetMask.Item4}";
             Console.Clear();
-            Console.WriteLine($"Dynamisches Subnettieren IPv4 V2\n\nBy Rick Kummer\n\nNetzadresse: {NetAdress}\nPräfix: {StringPräfix}\nSubnetzmaske: {StringSubnetMask}\n");
+            Console.WriteLine($"Dynamisches Subnettieren IPv4 V2\n\nBy Rick Kummer\n\n\nNetzadresse: {NetAdress}\nPräfix: {StringPräfix}\nSubnetzmaske: {StringSubnetMask}\n");
         }
-        static Tuple<int[], int[]> NetworkJump(int TempPräfix)
+        static void ProgramHead(List<Tuple<string, int>> TempNetworks,List<Tuple<int[], int[]>> TempSubnetworks)
         {
-            //Ermittelt die Größe des Teilnetzwerks und setzt den Wert für das nächste Netzwerk
-            int JumpBit = Bits[TempPräfix % 8 + 1];
-            int TargetOktett = TempPräfix / 8;
-            int[] NewIP = IPOktettsGlobal;
-            int[] Temp = IPOktettsGlobal;
-            NewIP[TargetOktett] += JumpBit;
-            if (NewIP[TargetOktett] > 255)
+            //Programmkopf mit Netzadresse, Präfix und Teilnetzwrken
+            Console.Clear();
+            Console.WriteLine($"Dynamisches Subnettieren IPv4 V2\n\nBy Rick Kummer\n\n\nNetzadresse: {NetAdress}\nPräfix: {StringPräfix}\n");
+            for (int i = 0; i < TempSubnetworks.Count; i++)
             {
-                NewIP[TargetOktett] = 0;
-                NewIP[TargetOktett - 1] += 1;
+                Console.WriteLine($"{TempNetworks[i].Item1}\nNetzadresse: {ConvertIntArrayToString(TempSubnetworks[i].Item1)}\nBrodcastardesse: {ConvertIntArrayToString(TempSubnetworks[i].Item2)}");
             }
-            IPOktettsGlobal = NewIP;
-            return new Tuple<int[], int[]>(Temp, NewIP);
+                
         }
-        static int GetNewPräfix(int Hosts)
+        static string ConvertIntArrayToString(int[] Array)
         {
-            //Ermittelt den neuen Präfix anhand der angegebenen Hostanzahl
+            //Setzt die vier Oktetten aus dem Array zu einer Netzadresse zusammen und gibt diese als String wieder aus
+            string TempString = "";
+            for (int i = 0; i < Array.Length; i++)
+            {
+                TempString += $"{Array[i]}";
+                if (i < 3)
+                    TempString += ".";
+            }
+            return TempString;
+        }
+        static void NetworkJump(List<Tuple<string, int>> TempNetworks)
+        {
+            //Ermittelt die Größe des Teilnetzwerks und gibt den Wert für die Netzadresse des Teilnetzwerks und das neue Teilnetzwerk zurück
+
+            int[] TempNetwokAdress = new List<int>(IPOktettsGlobal).ToArray();
+            foreach (var Item in TempNetworks)
+            {
+                int[] NextNetwork = TempNetwokAdress;
+                int NewPräfix = Präfix + GetBitToAdress(Item.Item2);
+                for (int i = 0; i < NextNetwork.Length; i++)
+                {
+                    if (i == GetTargetOktett((int)NewPräfix))
+                    {
+                        int TempInt = GetSumOfBits(TempNetworks[i].Item2 + 2);
+                        if (CheckOktett(TempInt))
+                        {
+                            NextNetwork[i - 1]++;
+                            NextNetwork[i] = 0;
+                        }
+                        else
+                        {
+                            NextNetwork[i] = TempInt;
+                        }
+                        break;
+                    }
+                }
+                SubNetworks.Add(new Tuple<int[], int[]>(TempNetwokAdress, NextNetwork));
+                TempNetwokAdress = NextNetwork;
+            }
+        }
+        static int GetSumOfBits(int temp)
+        {
+            //Gibt die Summe der gesetzen Bits zurück
+            return -1;
+        }
+        static int GetTargetOktett(int TempPräfix)
+        {
+            double Temp = TempPräfix / 8;
+            if (TempPräfix % 8 > 0)
+                Temp++;
+            return (int)Math.Floor(Temp);
+        }
+        static void ErrorProcessing()
+        {
+            //Rehlermeldung unerwarteter Fehler
+            Console.WriteLine("Es ist ein Unerwateter Fehler Aufgetreten");
+            Console.ReadLine();
+            Environment.Exit(0);
+        }
+        static int GetBitToAdress(int Hosts)
+        {
+            //Ermittelt die Betötigten Bits anhand der angegebenen Hostanzahl
             int Count = 0;
             while (true)
             {
                 if (Math.Pow(2, Count) < Hosts + 2)
                     Count++;
                 else
-                    return Count + Präfix;
+                    return Count;
             }
         }
         static void GetSubnetHostsFormUser()
@@ -107,7 +190,6 @@
                     Console.ReadKey();
                     continue;
                 }
-                ProgramHead(Networks);
                 Console.Write("Bitte geben Sie die Anzahl der Host's an: ");
                 int Hosts;
                 if (!int.TryParse(Console.ReadLine(), out Hosts))
@@ -149,14 +231,14 @@
             int IndexFullOktett = InputPräfix / 8;
             for (int i = 0; i < IndexFullOktett; i++)
                 result.Add(255);
-            result.Add(SetBitInOktett(InputPräfix % 8));
+            result.Add(ValueBitInOktett(InputPräfix % 8));
             for (int i = result.Count; i < 4; i++)
                 result.Add(0);
             return new Tuple<int, int, int, int>(result[0], result[1], result[2], result[3]);
         }
-        static int SetBitInOktett(int SetBit)
+        static int ValueBitInOktett(int SetBit)
         {
-            //Berechen der Adresse im Oktett durch gesetzte Bits
+            //Berechnen der Adresse im Oktett durch gesetzte Bits
             int OutAdress = 0;
             for (int i = 0; i < SetBit; i++)
                 OutAdress += Bits[i];
@@ -193,11 +275,9 @@
         static int[] GetIPFromUser()
         {
             //Fordert den Nutzer auf die Netzadresse einzugeben und gibt ein Tuple der Oktetten zurück
-            bool Error;
             int[] Temp = new int[4];
-            while (true)
+            while(true)
             {
-                Error = false;
                 ProgramHead();
                 Console.Write("Bitte geben sie die Netzadresse an: ");
                 NetAdress = Console.ReadLine() ?? "";
@@ -207,29 +287,16 @@
                     ErrorInputIp();
                     continue;
                 }
-                for (int i = 0; i < Oktette.Item2.Length; i++)
-                {
-                    Error = CheckOktett(Oktette.Item2[i]);
-                    if (Error)
-                        break;
-                }
-                if (Error)
-                {
-                    ErrorInputIp();
-                    continue;
-                }
-                Temp = Oktette.Item2;
-                break;
+                return Oktette.Item2;
             }
-            return Temp;
         }
         static bool CheckOktett(int Input)
         {
             //Checkt auf den richtigen Bereich der Adressierung
-            if (Input > 0 && Input < 256)
-                return true;
-            else
+            if (Input >= 0 && Input < 256)
                 return false;
+            else
+                return true;
         }
         static void ErrorInputIp()
         {
@@ -252,23 +319,34 @@
                     {
                         if (int.TryParse(Temp, out Oktestts[i]))
                         {
-                            Count++;
-                            continue;
+                            if (CheckOktett(Oktestts[i]))
+                                return new Tuple<bool, int[]>(true, Oktestts);
+                            else
+                            {
+                                Temp = "";
+                                Count++;
+                                break;
+                            }
                         }
-                        else
-                            return new Tuple<bool, int[]>(true, Oktestts);
+                    }
+                    else if (j == 3)
+                    {
+                        if (int.TryParse(Temp, out Oktestts[i]))
+                        {
+                            if (CheckOktett(Oktestts[i]))
+                                return new Tuple<bool, int[]>(true, Oktestts);
+                            else
+                            {
+                                Temp = "";
+                                Count++;
+                                break;
+                            }
+                        }
                     }
                     else
                     {
                         Temp += InputIP[j];
                         Count++;
-                    }
-                    if (j == InputIP.Length - 1)
-                    {
-                        if (int.TryParse(Temp, out Oktestts[i]))
-                            continue;
-                        else
-                            return new Tuple<bool, int[]>(true, Oktestts);
                     }
                 }
             }
